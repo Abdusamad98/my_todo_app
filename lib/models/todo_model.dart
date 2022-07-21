@@ -5,11 +5,13 @@ class TodoModel {
     required this.isDone,
     required this.todoDescription,
     required this.todoTitle,
+    required this.urgentLevel,
   });
 
-  final String todoTitle;
-  final String todoDescription;
-  final int categoryId;
-  final bool isDone;
-  final String dateTime;
+  String todoTitle;
+  String todoDescription;
+  int categoryId;
+  bool isDone;
+  String dateTime;
+  int urgentLevel; //12345
 }

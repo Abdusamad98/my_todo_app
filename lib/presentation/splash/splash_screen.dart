@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     isLogged = StorageRepository.getBool("is_logged");
     isInitial = StorageRepository.getBool("is_initial");
 
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 1));
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext con) {
       return isLogged

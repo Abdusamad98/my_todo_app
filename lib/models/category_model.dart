@@ -9,7 +9,7 @@ class CategoryModel {
   });
 
   final int categoryId;
-  final String iconPath;
+  final IconData iconPath;
   final String categoryName;
   final Color categoryColor;
 }
