@@ -18,3 +18,4 @@ class UtilityFunctions {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 }
+

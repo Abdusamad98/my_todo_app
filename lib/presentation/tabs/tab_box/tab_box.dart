@@ -41,7 +41,7 @@ class _TabBoxState extends State<TabBox> {
         },
         currentIndex: currentIndex,
         selectedItemColor: Colors.white,
-        selectedLabelStyle: TextStyle(color: Colors.green),
+        selectedLabelStyle:const TextStyle(color: Colors.green),
         items: [
           getItem(icon: Icons.task, labelText: "Todos"),
           getItem(icon: Icons.done_all, labelText: "Done"),

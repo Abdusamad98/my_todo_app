@@ -67,4 +67,8 @@ class MyRepository {
   static void addTodoToDone(int index) {
     myTodos[index].isDone = true;
   }
+
+  static void addNewTodo({required TodoModel todoModel}) {
+    myTodos.add(todoModel);
+  }
 }

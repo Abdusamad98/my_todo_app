@@ -22,6 +22,7 @@ dependencies:
   easy_localization: ^3.0.1
   image_picker: ^0.8.5+3
   modal_bottom_sheet: ^2.1.0
+  intl: ^0.17.0
 
 
 
