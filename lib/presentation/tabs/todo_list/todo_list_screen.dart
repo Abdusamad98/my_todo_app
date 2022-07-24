@@ -119,6 +119,9 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                                     padding: const EdgeInsets.all(8),
                                     child: TextField(
                                       controller: titleController,
+                                      decoration: const InputDecoration(
+                                        hintText: "To Do title here"
+                                      ),
                                     ),
                                   ),
                                   Padding(
@@ -281,8 +284,8 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
               isDone: false,
               onTap: () {
                 setState(() {
+                  MyRepository.addTodoToDone(myTodos[index]);
                   myTodos.removeAt(index);
-                  MyRepository.addTodoToDone(index);
                 });
               });
         }),

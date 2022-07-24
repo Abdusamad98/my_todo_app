@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_todo_app/models/category_model.dart';
 import 'package:my_todo_app/models/todo_model.dart';
@@ -106,7 +107,7 @@ class TodosItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("Deadline:"),
-              Text(toDo.dateTime),
+              Text(DateFormat("yy-MM-dd").format(DateTime.parse(toDo.dateTime))),
             ],
           ),
           TextButton(

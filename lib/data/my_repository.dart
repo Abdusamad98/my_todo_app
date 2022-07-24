@@ -47,7 +47,7 @@ class MyRepository {
   static List<TodoModel> myTodos = [
     TodoModel(
       categoryId: 5,
-      dateTime: "24/07/2022",
+      dateTime: "2022-07-28 21:50:32.557848",
       isDone: false,
       todoDescription:
           "Learning SQL database requests, Yaxshilab o'rganishim kerak, darsga tayyorlanib borishim shart, Men ikkichi emasman!",
@@ -56,7 +56,7 @@ class MyRepository {
     ),
     TodoModel(
       categoryId: 1,
-      dateTime: "26/07/2022",
+      dateTime: "2022-07-26 21:50:32.557848",
       isDone: true,
       todoDescription: "Mettingda qatnashishim kerak",
       todoTitle: "Work",
@@ -64,8 +64,12 @@ class MyRepository {
     )
   ];
 
-  static void addTodoToDone(int index) {
-    myTodos[index].isDone = true;
+  static void addTodoToDone(TodoModel todoModel) {
+    for (int i = 0; i < myTodos.length; i++) {
+      if (myTodos[i] == todoModel) {
+        myTodos[i].isDone = true;
+      }
+    }
   }
 
   static void addNewTodo({required TodoModel todoModel}) {
