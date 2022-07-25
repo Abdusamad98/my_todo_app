@@ -103,7 +103,6 @@ class TodosItem extends StatelessWidget {
             height: 10,
           ),
           Row(
-
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("Deadline:"),

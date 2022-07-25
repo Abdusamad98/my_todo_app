@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:my_todo_app/data/my_repository.dart';
 import 'package:my_todo_app/global_widgets/my_custom_button.dart';
@@ -13,8 +10,6 @@ import 'package:my_todo_app/presentation/tabs/todo_list/widgets/modal_top_view.d
 import 'package:my_todo_app/presentation/tabs/todo_list/widgets/select_date_item.dart';
 import 'package:my_todo_app/presentation/tabs/todo_list/widgets/select_urgent_level.dart';
 import 'package:my_todo_app/presentation/tabs/todo_list/widgets/todos_item.dart';
-import 'package:my_todo_app/utils/colors.dart';
-import 'package:my_todo_app/utils/styles.dart';
 import 'package:my_todo_app/utils/utility_functions.dart';
 
 class ToDoListScreen extends StatefulWidget {
@@ -120,8 +115,7 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                                     child: TextField(
                                       controller: titleController,
                                       decoration: const InputDecoration(
-                                        hintText: "To Do title here"
-                                      ),
+                                          hintText: "To Do title here"),
                                     ),
                                   ),
                                   Padding(
