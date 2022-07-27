@@ -33,9 +33,18 @@ class MyRepository {
     ));
   }
 
+
+
+  static Future<void> logUserOut() async {
+    await StorageRepository.putBool("is_logged", false);
+    await clearAllCachedTodos();
+    await clearAllCachedCategories();
+  }
+
 // ------------- Shared preference side ---------------------------
 
-  static getProfileImageUrl() => StorageRepository.getString("profile_image").toString();
+  static getProfileImageUrl() =>
+      StorageRepository.getString("profile_image").toString();
 
   static Future<ProfileModel> getProfileModel() async {
     await StorageRepository.getInstance();

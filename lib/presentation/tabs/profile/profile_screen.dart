@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_todo_app/data/local_data/storage.dart';
 import 'package:my_todo_app/data/my_repository.dart';
@@ -71,6 +72,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext con) {
+                      return AlertDialog(
+                        title: Row(
+                          children: const [
+                            Expanded(
+                              child: Text(
+                                  "Are you sure you want to log out? Todo lar hammasi o'chadi!"),
+                            ),
+                            Icon(Icons.warning)
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancel")),
+                          TextButton(
+                              onPressed: () async {
+                                await MyRepository.logUserOut();
+                                SystemNavigator.pop();
+                              },
+                              child: Text("Ok")),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: Icon(Icons.logout))
+          ],
           title: const Text(
             "Profile  screen",
           ),
