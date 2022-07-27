@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_todo_app/data/local_data/db/cached_category.dart';
 import 'package:my_todo_app/data/local_data/storage.dart';
+import 'package:my_todo_app/data/my_repository.dart';
 import 'package:my_todo_app/presentation/login/login_screen/login_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -96,7 +98,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     controller.jumpToPage(currentPageIndex);
                   });
                 } else {
-                  await StorageRepository.putBool("is_initial", true);
+                  await addInitialValues();
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (BuildContext c) {
                     return LoginScreen();
@@ -119,9 +121,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-
-  Future<void> addInitialValues()async{
+  Future<void> addInitialValues() async {
     await StorageRepository.putBool("is_initial", true);
-
+    MyRepository.insertCachedCategory(
+        cachedCategory: CachedCategory(
+      categoryName: "Work",
+      iconPath: Icons.work.codePoint,
+      categoryColor: 0xFFFFFFFF,
+    ));
   }
 }

@@ -15,7 +15,7 @@ class CachedCategory {
   final int? id;
   final int categoryColor;
   final String categoryName;
-  final String iconPath;
+  final int iconPath;
 
   CachedCategory({
     this.id,
@@ -28,7 +28,7 @@ class CachedCategory {
     int? id,
     int? categoryColor,
     String? categoryName,
-    String? iconPath,
+    int? iconPath,
   }) =>
       CachedCategory(
         id: id ?? this.id,
@@ -41,7 +41,7 @@ class CachedCategory {
         id: json[CachedCategoryFields.id] as int?,
         categoryColor: json[CachedCategoryFields.categoryColor] as int,
         categoryName: json[CachedCategoryFields.categoryName] as String,
-        iconPath: json[CachedCategoryFields.iconPath] as String,
+        iconPath: json[CachedCategoryFields.iconPath] as int,
       );
 
   Map<String, Object?> toJson() => {

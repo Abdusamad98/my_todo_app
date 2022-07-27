@@ -47,6 +47,15 @@ class LocalDatabase {
     ''');
 
     await db.execute('''
+    CREATE TABLE $categoryTable (
+    ${CachedCategoryFields.id} $idType,
+    ${CachedCategoryFields.categoryName} $textType,
+    ${CachedCategoryFields.iconPath} $intType,
+    ${CachedCategoryFields.categoryColor} $intType
+    )
+    ''');
+
+    await db.execute('''
     CREATE TABLE $userTable (
     ${CachedUsersFields.id} $idType,
     ${CachedUsersFields.userName} $textType,

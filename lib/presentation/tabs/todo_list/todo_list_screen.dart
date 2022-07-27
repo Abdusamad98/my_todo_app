@@ -296,6 +296,7 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
   }
 }
 
+
 CategoryModel getCategory(List<CategoryModel> categories, int categoryId) {
   return categories
       .where((element) => element.categoryId == categoryId)

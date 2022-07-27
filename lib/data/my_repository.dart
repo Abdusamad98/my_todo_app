@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_todo_app/data/local_data/db/cached_category.dart';
 import 'package:my_todo_app/data/local_data/db/cached_todo.dart';
 import 'package:my_todo_app/data/local_data/db/local_database.dart';
+import 'package:my_todo_app/data/local_data/storage.dart';
 import 'package:my_todo_app/models/category_model.dart';
+import 'package:my_todo_app/models/profile_model.dart';
 import 'package:my_todo_app/models/todo_model.dart';
 
 class MyRepository {
@@ -79,59 +81,81 @@ class MyRepository {
     myTodos.add(todoModel);
   }
 
-  // ------------------------------------Local DB side---------------------------------
-  //  -----------------------------------TO DO------------------------------------------
-  Future<CachedTodo> insertCachedTodo({required CachedTodo cachedTodo}) async {
+// ------------- Shared preference side ---------------------------
+  static Future<ProfileModel> getProfileModel() async {
+    await StorageRepository.getInstance();
+    String imagePath = StorageRepository.getString("profile_image");
+    String password = StorageRepository.getString("password");
+    String lastName = StorageRepository.getString("last_name");
+    String firstName = StorageRepository.getString("first_name");
+    String userAge = StorageRepository.getString("user_age");
+    String userEmail = StorageRepository.getString("user_email");
+    ProfileModel userData = ProfileModel(
+      imagePath: imagePath,
+      password: password,
+      lastName: lastName,
+      firstName: firstName,
+      userAge: userAge.isNotEmpty ? int.parse(userAge) : 0,
+      userEmail: userEmail,
+    );
+    return userData;
+  }
+
+// ------------------------------------Local DB side---------------------------------
+//  -----------------------------------TO DO------------------------------------------
+
+  static Future<CachedTodo> insertCachedTodo(
+      {required CachedTodo cachedTodo}) async {
     return await LocalDatabase.insertCachedTodo(cachedTodo);
   }
 
-  Future<CachedTodo> getSingleTodoById({required int id}) async {
+  static Future<CachedTodo> getSingleTodoById({required int id}) async {
     return await LocalDatabase.getSingleTodoById(id);
   }
 
-  Future<List<CachedTodo>> getAllCachedTodos() async {
+  static Future<List<CachedTodo>> getAllCachedTodos() async {
     return await LocalDatabase.getAllCachedTodos();
   }
 
-  Future<int> deleteCachedTodById({required int id}) async {
+  static Future<int> deleteCachedTodById({required int id}) async {
     return await LocalDatabase.deleteCachedTodoById(id);
   }
 
-  Future<int> updateCachedTodoById(
+  static Future<int> updateCachedTodoById(
       {required int id, required CachedTodo cachedTodo}) async {
     return await LocalDatabase.updateCachedTodo(id: id, cachedTodo: cachedTodo);
   }
 
-  Future<int> clearAllCachedTodos() async {
+  static Future<int> clearAllCachedTodos() async {
     return await LocalDatabase.deleteAllCachedTodos();
   }
 
-  //  -----------------------------------Category------------------------------------------
+//  -----------------------------------Category------------------------------------------
 
-  Future<CachedCategory> insertCachedCategory(
+  static Future<CachedCategory> insertCachedCategory(
       {required CachedCategory cachedCategory}) async {
     return await LocalDatabase.insertCachedCategory(cachedCategory);
   }
 
-  Future<CachedCategory> getSingleCategoryById({required int id}) async {
+  static Future<CachedCategory> getSingleCategoryById({required int id}) async {
     return await LocalDatabase.getSingleCategoryById(id);
   }
 
-  Future<List<CachedCategory>> getAllCachedCategories() async {
+  static Future<List<CachedCategory>> getAllCachedCategories() async {
     return await LocalDatabase.getAllCachedCategories();
   }
 
-  Future<int> deleteCachedCategoryById({required int id}) async {
+  static Future<int> deleteCachedCategoryById({required int id}) async {
     return await LocalDatabase.deleteCachedCategoryById(id);
   }
 
-  Future<int> updateCachedCategoryById(
+  static Future<int> updateCachedCategoryById(
       {required int id, required CachedCategory cachedCategory}) async {
     return await LocalDatabase.updateCachedCategory(
         id: id, cachedCategory: cachedCategory);
   }
 
-  Future<int> clearAllCachedCategories() async {
+  static Future<int> clearAllCachedCategories() async {
     return await LocalDatabase.deleteAllCachedCategories();
   }
 }
