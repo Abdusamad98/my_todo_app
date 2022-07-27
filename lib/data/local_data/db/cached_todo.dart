@@ -18,7 +18,10 @@ class CachedTodo {
   final int? id;
   final int categoryId;
   final String dateTime;
-  final int isDone;
+  final int isDone; //status
+  // 0  --> Hali bajarilmadi
+  // 1 ---> Bajarilgan
+  // 2 ---> O'chirilgan update qilishga tayyor
   final String todoDescription;
   final String todoTitle;
   final int urgentLevel;

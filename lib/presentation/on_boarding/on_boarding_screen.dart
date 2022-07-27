@@ -98,7 +98,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     controller.jumpToPage(currentPageIndex);
                   });
                 } else {
-                  await addInitialValues();
+                  await MyRepository.addInitialValues();
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (BuildContext c) {
                     return LoginScreen();
@@ -119,15 +119,5 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
     );
-  }
-
-  Future<void> addInitialValues() async {
-    await StorageRepository.putBool("is_initial", true);
-    MyRepository.insertCachedCategory(
-        cachedCategory: CachedCategory(
-      categoryName: "Work",
-      iconPath: Icons.work.codePoint,
-      categoryColor: 0xFFFFFFFF,
-    ));
   }
 }

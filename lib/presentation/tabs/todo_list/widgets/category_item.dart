@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_todo_app/data/local_data/db/cached_category.dart';
 import 'package:my_todo_app/models/category_model.dart';
 import 'package:my_todo_app/utils/colors.dart';
 import 'package:my_todo_app/utils/styles.dart';
@@ -11,7 +12,7 @@ class CategoryItem extends StatelessWidget {
       required this.isSelected})
       : super(key: key);
 
-  final CategoryModel categoryModel;
+  final CachedCategory categoryModel;
   final VoidCallback onTap;
   final bool isSelected;
 
@@ -27,13 +28,13 @@ class CategoryItem extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: categoryModel.categoryColor),
+                  color: Color(categoryModel.categoryColor)),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                      categoryModel.iconPath,
+                      IconData(categoryModel.iconPath,fontFamily: "Inter-Medium"),
                       size: 35,
                       color: MyColors.white,
                     ),

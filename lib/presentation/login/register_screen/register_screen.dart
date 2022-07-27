@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon:const Icon(Icons.arrow_back_sharp),
+          icon: const Icon(Icons.arrow_back_sharp),
           onPressed: () {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (BuildContext context) {
@@ -80,16 +80,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     await StorageRepository.putString(
                         key: "username", value: usernameController.text);
                     await StorageRepository.putString(
+                        key: "lastname", value: "Alijonov"); //fake
+                    await StorageRepository.putString(
                         key: "password", value: passwordController.text);
                     await StorageRepository.putString(
                         key: "age", value: ageController.text);
+                    await StorageRepository.putString(
+                        key: "user_email", value: "example@gmail.com"); //fake
                   }
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (BuildContext context) {
                     return LoginScreen();
                   }));
                 },
-                child:const Text("Register User"))
+                child: const Text("Register User"))
           ],
         ),
       ),

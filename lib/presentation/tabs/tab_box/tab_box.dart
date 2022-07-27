@@ -26,10 +26,11 @@ class _TabBoxState extends State<TabBox> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: IndexedStack(
-        index: currentIndex,
-        children: screens,
-      ),
+      body:screens[currentIndex],
+      // IndexedStack(
+      //   index: currentIndex,
+      //   children: screens,
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.grey,

@@ -16,80 +16,36 @@ class MyRepository {
 
   MyRepository._();
 
-  static List<CategoryModel> categories = [
-    CategoryModel(
+  static Future<void> addInitialValues() async {
+    await StorageRepository.putBool("is_initial", true);
+    await MyRepository.insertCachedCategory(
+        cachedCategory: CachedCategory(
       categoryName: "Work",
-      categoryColor: Colors.green,
-      categoryId: 1,
-      iconPath: Icons.work,
-    ),
-    CategoryModel(
+      iconPath: Icons.work.codePoint,
+      categoryColor: 0xFFFFFFFF,
+    ));
+
+    await MyRepository.insertCachedCategory(
+        cachedCategory: CachedCategory(
       categoryName: "Sport",
-      categoryColor: Colors.blue,
-      categoryId: 2,
-      iconPath: Icons.sports_basketball,
-    ),
-    CategoryModel(
-      categoryName: "Health",
-      categoryColor: Colors.red,
-      categoryId: 3,
-      iconPath: Icons.favorite_outlined,
-    ),
-    CategoryModel(
-      categoryName: "Food",
-      categoryColor: Colors.yellow,
-      categoryId: 4,
-      iconPath: Icons.fastfood,
-    ),
-    CategoryModel(
-      categoryName: "Coding",
-      categoryColor: Colors.black,
-      categoryId: 5,
-      iconPath: Icons.code,
-    )
-  ];
-
-  static List<TodoModel> myTodos = [
-    TodoModel(
-      categoryId: 5,
-      dateTime: "2022-07-28 21:50:32.557848",
-      isDone: false,
-      todoDescription:
-          "Learning SQL database requests, Yaxshilab o'rganishim kerak, darsga tayyorlanib borishim shart, Men ikkichi emasman!",
-      todoTitle: "SQL",
-      urgentLevel: 4,
-    ),
-    TodoModel(
-      categoryId: 1,
-      dateTime: "2022-07-26 21:50:32.557848",
-      isDone: true,
-      todoDescription: "Mettingda qatnashishim kerak",
-      todoTitle: "Work",
-      urgentLevel: 3,
-    )
-  ];
-
-  static void addTodoToDone(TodoModel todoModel) {
-    for (int i = 0; i < myTodos.length; i++) {
-      if (myTodos[i] == todoModel) {
-        myTodos[i].isDone = true;
-      }
-    }
-  }
-
-  static void addNewTodo({required TodoModel todoModel}) {
-    myTodos.add(todoModel);
+      iconPath: Icons.sports_basketball.codePoint,
+      categoryColor: 0xFF000000,
+    ));
   }
 
 // ------------- Shared preference side ---------------------------
+
+  static getProfileImageUrl() => StorageRepository.getString("profile_image").toString();
+
   static Future<ProfileModel> getProfileModel() async {
     await StorageRepository.getInstance();
     String imagePath = StorageRepository.getString("profile_image");
     String password = StorageRepository.getString("password");
-    String lastName = StorageRepository.getString("last_name");
-    String firstName = StorageRepository.getString("first_name");
-    String userAge = StorageRepository.getString("user_age");
+    String lastName = StorageRepository.getString("lastname");
+    String firstName = StorageRepository.getString("username");
+    String userAge = StorageRepository.getString("age");
     String userEmail = StorageRepository.getString("user_email");
+
     ProfileModel userData = ProfileModel(
       imagePath: imagePath,
       password: password,
@@ -102,6 +58,7 @@ class MyRepository {
   }
 
 // ------------------------------------Local DB side---------------------------------
+
 //  -----------------------------------TO DO------------------------------------------
 
   static Future<CachedTodo> insertCachedTodo(
@@ -115,6 +72,16 @@ class MyRepository {
 
   static Future<List<CachedTodo>> getAllCachedTodos() async {
     return await LocalDatabase.getAllCachedTodos();
+  }
+
+  static Future<List<CachedTodo>> getAllCachedTodosByDone(
+      {required int isDone}) async {
+    return await LocalDatabase.getTodoList(isDone);
+  }
+
+  static Future<int> updateCachedTodoIsDone(
+      {required int isDone, required int id}) async {
+    return await LocalDatabase.updateCachedTodoIsDone(id, isDone);
   }
 
   static Future<int> deleteCachedTodById({required int id}) async {

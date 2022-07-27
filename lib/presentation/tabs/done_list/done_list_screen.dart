@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_todo_app/data/local_data/db/cached_category.dart';
+import 'package:my_todo_app/data/local_data/db/cached_todo.dart';
 import 'package:my_todo_app/data/my_repository.dart';
-import 'package:my_todo_app/models/category_model.dart';
-import 'package:my_todo_app/models/todo_model.dart';
-import 'package:my_todo_app/presentation/tabs/todo_list/todo_list_screen.dart';
+import 'package:my_todo_app/global_widgets/profile_image_appbar.dart';
 import 'package:my_todo_app/presentation/tabs/todo_list/widgets/todos_item.dart';
 
 class DoneListScreen extends StatefulWidget {
@@ -13,37 +13,47 @@ class DoneListScreen extends StatefulWidget {
 }
 
 class _DoneListScreenState extends State<DoneListScreen> {
-  List<TodoModel> myTodos = [];
-  List<CategoryModel> categories = [];
+  List<CachedTodo> myTodos = [];
+  List<CachedCategory> categories = [];
 
   @override
   void initState() {
-    myTodos = MyRepository.myTodos.where((element) => element.isDone).toList();
-    categories = MyRepository.categories;
+    _init();
     super.initState();
+  }
+
+  void _init() async {
+    myTodos = await MyRepository.getAllCachedTodosByDone(isDone: 1);
+    categories = await MyRepository.getAllCachedCategories();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading:const ProfileImageAppbar(),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
-        title: const Text("Todo List"),
+        title: const Text("Done List"),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          setState(() {
-            myTodos = MyRepository.myTodos
-                .where((element) => element.isDone)
-                .toList();
-          });
+          _init();
         },
         child: ListView(
           children: List.generate(myTodos.length, (index) {
             var toDo = myTodos[index];
-            var category = getCategory(categories, toDo.categoryId);
             return TodosItem(
-                toDo: toDo, category: category, isDone: true, onTap: () {});
+                onDeleted: () {
+                  MyRepository.updateCachedTodoIsDone(
+                    isDone: 2,
+                    id: myTodos[index].id!,
+                  );
+                  _init();
+                },
+                toDo: toDo,
+                isDone: true,
+                onTap: () {});
           }),
         ),
       ),

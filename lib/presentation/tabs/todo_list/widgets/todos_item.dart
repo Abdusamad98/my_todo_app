@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:my_todo_app/models/category_model.dart';
-import 'package:my_todo_app/models/todo_model.dart';
+import 'package:my_todo_app/data/local_data/db/cached_category.dart';
+import 'package:my_todo_app/data/local_data/db/cached_todo.dart';
+import 'package:my_todo_app/data/my_repository.dart';
 import 'package:my_todo_app/utils/colors.dart';
 import 'package:my_todo_app/utils/styles.dart';
 
@@ -9,15 +10,15 @@ class TodosItem extends StatelessWidget {
   const TodosItem({
     Key? key,
     required this.toDo,
-    required this.category,
     required this.isDone,
     required this.onTap,
+    required this.onDeleted,
   }) : super(key: key);
 
-  final TodoModel toDo;
-  final CategoryModel category;
+  final CachedTodo toDo;
   final VoidCallback onTap;
   final bool isDone;
+  final VoidCallback onDeleted;
 
   @override
   Widget build(BuildContext context) {
@@ -86,19 +87,32 @@ class TodosItem extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              const Text("Category:"),
-              const SizedBox(
-                width: 20,
-              ),
-              Text(category.categoryName),
-              const Expanded(
-                child: SizedBox(),
-              ),
-              Icon(category.iconPath),
-            ],
-          ),
+          FutureBuilder(
+              future: MyRepository.getSingleCategoryById(id: toDo.categoryId),
+              builder:
+                  (BuildContext con, AsyncSnapshot<CachedCategory> snapshot) {
+                if (snapshot.hasData) {
+                  var category = snapshot.data!;
+                  return Row(
+                    children: [
+                      const Text("Category:"),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text(category.categoryName),
+                      const Expanded(
+                        child: SizedBox(),
+                      ),
+                      Icon(IconData(
+                        category.iconPath,
+                        fontFamily: "Inter-Medium",
+                      )),
+                    ],
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              }),
           const SizedBox(
             height: 10,
           ),
@@ -121,6 +135,12 @@ class TodosItem extends StatelessWidget {
                     Checkbox(value: isDone, onChanged: (v) {})
                   ],
                 ),
+              )),
+          TextButton(
+              onPressed: onDeleted,
+              child: Icon(
+                Icons.delete,
+                color: Colors.red,
               )),
         ],
       ),

@@ -32,7 +32,7 @@ class LocalDatabase {
     const idType = "INTEGER PRIMARY KEY AUTOINCREMENT";
     const textType = "TEXT NOT NULL";
     const intType = "INTEGER DEFAULT 0";
-    final boolType = 'BOOLEAN NOT NULL';
+    const boolType = 'BOOLEAN NOT NULL';
 
     await db.execute('''
     CREATE TABLE $todoTable (
@@ -228,6 +228,7 @@ class LocalDatabase {
     return result.map((json) => CachedTodo.fromJson(json)).toList();
   }
 
+
   static Future<List<CachedTodo>> getTodoList(int isDone) async {
     final db = await getInstance.database;
     final result = await db.query(todoTable,
@@ -261,6 +262,7 @@ class LocalDatabase {
       CachedTodoFields.urgentLevel: cachedTodo.urgentLevel,
       CachedTodoFields.dateTime: cachedTodo.dateTime,
     };
+
 
     final db = await getInstance.database;
     return db.update(

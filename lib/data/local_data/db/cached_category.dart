@@ -3,7 +3,7 @@ const String categoryTable = "cached_category";
 class CachedCategoryFields {
   static final List<String> values = [
     /// Add all fields
-    id, categoryName, categoryColor, iconPath,
+    id, categoryName,categoryColor, iconPath,
   ];
   static const String id = "_id";
   static const String categoryName = "category_name";

@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:my_todo_app/data/local_data/db/cached_category.dart';
+import 'package:my_todo_app/data/local_data/db/cached_todo.dart';
 import 'package:my_todo_app/data/my_repository.dart';
 import 'package:my_todo_app/global_widgets/my_custom_button.dart';
+import 'package:my_todo_app/global_widgets/profile_image_appbar.dart';
 import 'package:my_todo_app/models/category_model.dart';
 import 'package:my_todo_app/models/todo_model.dart';
 import 'package:my_todo_app/presentation/tabs/todo_list/widgets/category_item.dart';
@@ -20,8 +25,8 @@ class ToDoListScreen extends StatefulWidget {
 }
 
 class _ToDoListScreenState extends State<ToDoListScreen> {
-  List<TodoModel> myTodos = [];
-  List<CategoryModel> categories = [];
+  List<CachedTodo> myTodos = [];
+  List<CachedCategory> categories = [];
   int categorySelectedIndex = -1;
   int urgentLevel = 0;
 
@@ -67,18 +72,17 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
     super.initState();
   }
 
-  void _init() {
-    setState(() {
-      myTodos =
-          MyRepository.myTodos.where((element) => !element.isDone).toList();
-      categories = MyRepository.categories;
-    });
+  void _init() async {
+    myTodos = await MyRepository.getAllCachedTodosByDone(isDone: 0);
+    categories = await MyRepository.getAllCachedCategories();
+    setState(() {});
   }
 
   @override
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
+
     super.dispose();
   }
 
@@ -204,7 +208,7 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                                       Expanded(
                                         child: MyCustomButton(
                                           buttonText: "Save",
-                                          onTap: () {
+                                          onTap: () async {
                                             String titleText =
                                                 titleController.text;
                                             String descriptionText =
@@ -234,20 +238,21 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                                                 selectedTime.hour,
                                                 selectedTime.minute,
                                               );
-                                              TodoModel todoModel = TodoModel(
+                                              CachedTodo cachedTodo =
+                                                  CachedTodo(
+                                                dateTime: dateTime.toString(),
+                                                todoTitle: titleText,
                                                 categoryId: categories[
                                                         categorySelectedIndex]
-                                                    .categoryId,
-                                                dateTime: dateTime.toString(),
-                                                isDone: false,
+                                                    .id!,
+                                                urgentLevel: urgentLevel,
+                                                isDone: 0,
                                                 todoDescription:
                                                     descriptionText,
-                                                todoTitle: titleText,
-                                                urgentLevel: urgentLevel,
                                               );
-                                              MyRepository.addNewTodo(
-                                                todoModel: todoModel,
-                                              );
+                                              await MyRepository
+                                                  .insertCachedTodo(
+                                                      cachedTodo: cachedTodo);
                                               _init();
                                               setDefaults();
                                               Navigator.pop(context);
@@ -267,19 +272,28 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
               },
               icon: const Icon(Icons.add))
         ],
+        leading:const ProfileImageAppbar(),
         title: const Text("Todo List"),
       ),
       body: ListView(
         children: List.generate(myTodos.length, (index) {
           var toDo = myTodos[index];
-          var category = getCategory(categories, toDo.categoryId);
           return TodosItem(
               toDo: toDo,
-              category: category,
               isDone: false,
+              onDeleted: () {
+                MyRepository.updateCachedTodoIsDone(
+                  isDone: 2,
+                  id: myTodos[index].id!,
+                );
+                _init();
+              },
               onTap: () {
                 setState(() {
-                  MyRepository.addTodoToDone(myTodos[index]);
+                  MyRepository.updateCachedTodoIsDone(
+                    id: myTodos[index].id!,
+                    isDone: 1,
+                  );
                   myTodos.removeAt(index);
                 });
               });
@@ -295,7 +309,6 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
     categorySelectedIndex = -1;
   }
 }
-
 
 CategoryModel getCategory(List<CategoryModel> categories, int categoryId) {
   return categories
