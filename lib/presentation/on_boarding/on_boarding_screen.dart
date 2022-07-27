@@ -118,4 +118,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
     );
   }
+
+
+  Future<void> addInitialValues()async{
+    await StorageRepository.putBool("is_initial", true);
+
+  }
 }

@@ -106,7 +106,8 @@ class TodosItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("Deadline:"),
-              Text(DateFormat("yy-MM-dd").format(DateTime.parse(toDo.dateTime))),
+              Text(
+                  DateFormat("yy-MM-dd").format(DateTime.parse(toDo.dateTime))),
             ],
           ),
           TextButton(

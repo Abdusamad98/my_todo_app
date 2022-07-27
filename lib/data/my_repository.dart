@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_todo_app/data/local_data/db/cached_category.dart';
+import 'package:my_todo_app/data/local_data/db/cached_todo.dart';
+import 'package:my_todo_app/data/local_data/db/local_database.dart';
 import 'package:my_todo_app/models/category_model.dart';
 import 'package:my_todo_app/models/todo_model.dart';
 
@@ -74,5 +77,61 @@ class MyRepository {
 
   static void addNewTodo({required TodoModel todoModel}) {
     myTodos.add(todoModel);
+  }
+
+  // ------------------------------------Local DB side---------------------------------
+  //  -----------------------------------TO DO------------------------------------------
+  Future<CachedTodo> insertCachedTodo({required CachedTodo cachedTodo}) async {
+    return await LocalDatabase.insertCachedTodo(cachedTodo);
+  }
+
+  Future<CachedTodo> getSingleTodoById({required int id}) async {
+    return await LocalDatabase.getSingleTodoById(id);
+  }
+
+  Future<List<CachedTodo>> getAllCachedTodos() async {
+    return await LocalDatabase.getAllCachedTodos();
+  }
+
+  Future<int> deleteCachedTodById({required int id}) async {
+    return await LocalDatabase.deleteCachedTodoById(id);
+  }
+
+  Future<int> updateCachedTodoById(
+      {required int id, required CachedTodo cachedTodo}) async {
+    return await LocalDatabase.updateCachedTodo(id: id, cachedTodo: cachedTodo);
+  }
+
+  Future<int> clearAllCachedTodos() async {
+    return await LocalDatabase.deleteAllCachedTodos();
+  }
+
+  //  -----------------------------------Category------------------------------------------
+
+  Future<CachedCategory> insertCachedCategory(
+      {required CachedCategory cachedCategory}) async {
+    return await LocalDatabase.insertCachedCategory(cachedCategory);
+  }
+
+  Future<CachedCategory> getSingleCategoryById({required int id}) async {
+    return await LocalDatabase.getSingleCategoryById(id);
+  }
+
+  Future<List<CachedCategory>> getAllCachedCategories() async {
+    return await LocalDatabase.getAllCachedCategories();
+  }
+
+  Future<int> deleteCachedCategoryById({required int id}) async {
+    return await LocalDatabase.deleteCachedCategoryById(id);
+  }
+
+  Future<int> updateCachedCategoryById(
+      {required int id, required CachedCategory cachedCategory}) async {
+    return await LocalDatabase.updateCachedCategory(
+        id: id, cachedCategory: cachedCategory);
+  }
+
+  Future<int> clearAllCachedCategories() async {
+    return await LocalDatabase.deleteAllCachedCategories();
   }
 }
