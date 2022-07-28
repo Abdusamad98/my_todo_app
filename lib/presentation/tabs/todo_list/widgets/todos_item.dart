@@ -105,7 +105,7 @@ class TodosItem extends StatelessWidget {
                       ),
                       Icon(IconData(
                         category.iconPath,
-                        fontFamily: "Inter-Medium",
+                        fontFamily: "MaterialIcons",
                       )),
                     ],
                   );

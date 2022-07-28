@@ -34,7 +34,7 @@ class CategoryItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                      IconData(categoryModel.iconPath,fontFamily: "Inter-Medium"),
+                      IconData(categoryModel.iconPath,fontFamily: "MaterialIcons"),
                       size: 35,
                       color: MyColors.white,
                     ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:my_todo_app/presentation/tabs/basket/basket_screen.dart';
 import 'package:my_todo_app/presentation/tabs/done_list/done_list_screen.dart';
@@ -44,10 +45,10 @@ class _TabBoxState extends State<TabBox> {
         selectedItemColor: Colors.white,
         selectedLabelStyle:const TextStyle(color: Colors.green),
         items: [
-          getItem(icon: Icons.task, labelText: "Todos"),
-          getItem(icon: Icons.done_all, labelText: "Done"),
-          getItem(icon: Icons.shopping_basket, labelText: "Basket"),
-          getItem(icon: Icons.perm_identity_rounded, labelText: "Profile")
+          getItem(icon: Icons.task, labelText: tr("todos")),
+          getItem(icon: Icons.done_all, labelText: tr("done")),
+          getItem(icon: Icons.shopping_basket, labelText:tr("basket")),
+          getItem(icon: Icons.perm_identity_rounded, labelText:tr("profile"))
         ],
       ),
     );
@@ -65,5 +66,40 @@ class _TabBoxState extends State<TabBox> {
           icon,
           color: Colors.white,
         ));
+  }
+  void navigateToScreen() {
+    switch (currentIndex) {
+      case 0:
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+                return ToDoListScreen();
+              }));
+        }
+        break;
+      case 1:
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+                return DoneListScreen();
+              }));
+        }
+        break;
+      case 2:
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+                return BasketScreen();
+              }));
+        }
+        break;
+      default:
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+                return ProfileScreen();
+              }));
+        }
+    }
   }
 }

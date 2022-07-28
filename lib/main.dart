@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_todo_app/presentation/splash/splash_screen.dart';
 
-void main() {
+void main() async{
   // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
   //   systemNavigationBarColor: Colors.blue, // navigation bar color
   //   statusBarColor: Colors.pink, // status bar color
@@ -11,7 +12,22 @@ void main() {
   //   systemNavigationBarDividerColor: Colors.greenAccent,//Navigation bar divider color
   //   systemNavigationBarIconBrightness: Brightness.light, //navigation bar icon
   // ));
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  runApp(EasyLocalization(
+      path: 'assets/translations',
+      supportedLocales: [
+        Locale('en', 'EN'),
+        Locale('ru', 'RU'),
+        Locale('uz', 'UZ'),
+      ],
+      saveLocale: true,
+      fallbackLocale: Locale('uz', 'UZ'),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,6 +41,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const SplashScreen(),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
     );
   }
 }

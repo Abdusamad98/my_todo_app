@@ -134,4 +134,8 @@ class MyRepository {
   static Future<int> clearAllCachedCategories() async {
     return await LocalDatabase.deleteAllCachedCategories();
   }
+  static Future<void> updateMyLocale(String updateLocale) async {
+    await StorageRepository.getInstance();
+    await StorageRepository.putString(key:"current_locale", value: updateLocale);
+  }
 }

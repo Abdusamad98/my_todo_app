@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_todo_app/data/local_data/storage.dart';
 import 'package:my_todo_app/data/my_repository.dart';
 import 'package:my_todo_app/models/profile_model.dart';
+import 'package:my_todo_app/presentation/tabs/profile/sub_screens/settings_screen.dart';
 import 'package:my_todo_app/utils/utility_functions.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -75,6 +76,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           actions: [
             IconButton(
                 onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext context) {
+                    return const SettingsScreen();
+                  }));
+                },
+                icon: const Icon(Icons.settings)),
+            IconButton(
+                onPressed: () {
                   showDialog(
                     context: context,
                     builder: (BuildContext con) {
@@ -105,7 +114,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   );
                 },
-                icon: Icon(Icons.logout))
+                icon: Icon(Icons.logout)),
           ],
           title: const Text(
             "Profile  screen",
